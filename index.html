@@ -4,8 +4,21 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Navnoor – Aloe Face Cleanser | Pure Herbal Skincare</title>
+<meta name="description" content="Experience nature's purity with Navnoor Aloe Face Cleanser. A 100% natural, chemical-free herbal cleanser crafted in India for deep hydration, pore care, and a natural glow." />
+
+<meta name="keywords" content="Navnoor, Aloe Face Cleanser, herbal skincare, chemical-free cleanser, natural skincare India, aloe vera face wash, glowing skin" />
+<meta name="author" content="Navnoor" />
+
+<meta name="robots" content="index, follow" />
+
+<meta property="og:title" content="Navnoor – Aloe Face Cleanser | Pure Herbal Skincare" />
+<meta property="og:description" content="100% natural, chemical-free herbal cleanser for deep hydration and a natural glow. Order your Navnoor cleanser today!" />
+<meta property="og:image" content="https://www.navnoor.co/assets/img3.jpeg" /> 
+<meta property="og:url" content="https://www.navnoor.co/" />
+<meta property="og:type" content="website" />
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Jost:wght@200;300;400;500;600&family=Cormorant:ital,wght@0,300;1,300;1,400&display=swap" rel="stylesheet"/>
+<link rel="icon" href="assets/logo2.png" sizes="32x32" /> <link rel="shortcut icon" href="assets/logo2.png" /> <link rel="apple-touch-icon" href="assets/logo2.png" sizes="180x180" /> <meta name="theme-color" content="#0d1f0e" />
 <style>
 :root {
   --black:#0a0a0a; --deep:#0d1f0e; --forest:#152b16; --green:#1e4020;
@@ -226,7 +239,8 @@ nav.scrolled{background:rgba(10,10,10,0.95);backdrop-filter:blur(20px);height:74
 .testimonials-header{text-align:center;margin-bottom:80px;}
 .testimonials-title{font-family:'Playfair Display',serif;font-size:clamp(36px,4vw,54px);color:var(--cream);font-weight:400;}
 .testimonials-title em{font-style:italic;color:var(--gold);}
-.reviews-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;max-width:1200px;margin:0 auto;}
+.reviews-grid{display:flex;gap:24px;max-width:1200px;margin:0 auto;overflow-x:auto;padding:20px 12px 12px;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;}
+.reviews-grid .review-card{flex:0 0 calc(33.333% - 16px);min-width:260px;scroll-snap-align:start;}
 .review-card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:4px;padding:40px 32px;transition:border-color 0.3s,transform 0.3s;}
 .review-card:hover{border-color:rgba(200,168,75,0.3);transform:translateY(-4px);}
 .review-stars{color:var(--gold);font-size:14px;letter-spacing:3px;margin-bottom:20px;}
@@ -317,7 +331,7 @@ footer{background:var(--black);border-top:1px solid rgba(255,255,255,0.06);paddi
   .benefit-row{grid-template-columns:1fr;gap:40px;}
   .benefit-row:nth-child(even) .benefit-visual{order:0;}
   .ing-grid{grid-template-columns:1fr 1fr;}
-  .reviews-grid{grid-template-columns:1fr;}
+  .reviews-grid{display:flex;gap:18px;padding:12px 6px;overflow-x:auto;}
   .footer-top{grid-template-columns:1fr 1fr;gap:40px;}
   .testimonials{padding:80px 30px;}
   .faq{padding:80px 30px;}
@@ -374,6 +388,15 @@ footer{background:var(--black);border-top:1px solid rgba(255,255,255,0.06);paddi
 }
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-R0B80VX92Z"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-R0B80VX92Z');
+</script>
 </head>
 <body>
 
@@ -743,8 +766,7 @@ footer{background:var(--black);border-top:1px solid rgba(255,255,255,0.06);paddi
       <p id="rev-msg" style="margin-top:16px;font-size:12px;color:var(--gold);opacity:0;transition:opacity 0.4s;"></p>
     </div>
     <!-- User submitted reviews render here -->
-    <div id="user-reviews-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px;max-width:1200px;margin:40px auto 0;"></div>
-  </div>
+<div id="user-reviews-grid" class="reviews-grid" style="max-width:1200px;margin:40px auto 0;"></div>  </div>
 </section>
 
 <!-- FAQ -->
@@ -979,8 +1001,9 @@ async function submitReview() {
   );
 
   showMsg('Thank you! Your review has been submitted. 🌿', 'var(--gold)');
-
   renderUserReviews();
+  // ensure newest (left-most) card is visible
+  const _grid = document.getElementById('user-reviews-grid'); if(_grid) _grid.scrollTo({ left: 0, behavior: 'smooth' });
 }
 
 function showMsg(txt, color) {
@@ -1012,11 +1035,8 @@ async function renderUserReviews() {
     return;
   }
 
-  grid.innerHTML = reviews.slice(0,6).map(r => `
-    <div style="background:rgba(255,255,255,0.03);
-    border:1px solid rgba(255,255,255,0.07);
-    border-radius:4px;
-    padding:32px 28px;">
+  grid.innerHTML = reviews.slice(0,50).map(r => `
+    <div class="review-card" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:4px;padding:32px 28px;">
 
       <div style="color:var(--gold);
       font-size:16px;
